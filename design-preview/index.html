@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#123c35">
   <title>TradeDesk v2 — نمونه طراحی محصول</title>
   <link rel="stylesheet" href="assets/prototype.css">
+  <link rel="stylesheet" href="assets/prototype-v2.css">
   <style>@media(max-width:900px){html,body,.shell,main,.view,.case-hero,.progress-track,.health-strip,.case-layout{min-width:0;max-width:100%;overflow-x:hidden}.progress-track,.case-tabs{overflow-x:auto}.case-main>*{min-width:0}.case-main h1{overflow-wrap:anywhere}}</style>
 </head>
 <body>
@@ -19,10 +20,12 @@
         <div class="nav-label">دانش تجاری</div>
         <a href="#product" data-nav="product"><span>◇</span> کالاها</a>
         <a href="#company" data-nav="company"><span>◎</span> شرکت‌ها و اشخاص</a>
-        <a href="#documents" data-nav="documents" class="muted-link"><span>▤</span> صف اسناد <i>۳</i></a>
+        <a href="#tasks" data-nav="tasks"><span>✓</span> کارتابل وظایف <i>۴</i></a>
+        <a href="#documents" data-nav="documents"><span>▤</span> صف اسناد <i>۳</i></a>
+        <a href="#logistics" data-nav="logistics"><span>⌁</span> حمل و بیمه</a>
         <div class="nav-label">مدیریت</div>
-        <a href="#reports" data-nav="reports" class="muted-link"><span>⌗</span> گزارش‌ها</a>
-        <a href="#settings" data-nav="settings" class="muted-link"><span>⚙</span> تنظیمات</a>
+        <a href="#reports" data-nav="reports"><span>⌗</span> گزارش‌ها</a>
+        <a href="#settings" data-nav="settings"><span>⚙</span> تنظیمات</a>
       </nav>
       <div class="side-foot">
         <div class="user-avatar">ح م</div><div><b>حامد میرزایی</b><small>شریک / مدیر بازرگانی</small></div><button aria-label="منوی کاربر">•••</button>
@@ -31,14 +34,18 @@
     <main>
       <header class="topbar">
         <button class="menu-toggle" id="menuToggle" aria-label="نمایش منو">☰</button>
-        <div class="global-search"><span>⌕</span><input placeholder="جست‌وجوی پرونده، کالا، شرکت یا سند…" aria-label="جست‌وجوی سراسری"><kbd>Ctrl K</kbd></div>
-        <button class="top-action" data-demo="مرکز اعلان‌ها در نسخه اجرایی باز می‌شود">♢<i></i></button>
-        <button class="quick-create" data-demo="جریان ایجاد سریع: درخواست → کالا → طرف‌ها → اقدام بعدی">＋ ثبت درخواست جدید</button>
+        <div class="global-search"><span>⌕</span><input id="globalSearchInput" placeholder="جست‌وجوی پرونده، کالا، شرکت یا سند…" aria-label="جست‌وجوی سراسری" autocomplete="off"><kbd>Ctrl K</kbd><div class="search-popover" id="searchPopover"></div></div>
+        <button class="top-action" data-action="notifications" aria-label="اعلان‌های نمونه">♢<i></i></button>
+        <button class="quick-create" data-action="new-opportunity">＋ ثبت درخواست جدید</button>
       </header>
       <div id="app" tabindex="-1"></div>
     </main>
   </div>
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  <aside class="action-drawer" id="actionDrawer" aria-hidden="true"><div class="drawer-head"><div><small>ذخیره آزمایشی؛ بدون اتصال به دیتابیس</small><h2 id="drawerTitle">عملیات نمونه</h2></div><button id="drawerClose" aria-label="بستن">×</button></div><div class="drawer-body" id="drawerBody"></div></aside>
+  <dialog class="flow-dialog" id="flowDialog"><div id="flowContent"></div></dialog>
   <div class="toast" id="toast" role="status"></div>
   <script src="assets/prototype.js"></script>
+  <script src="assets/prototype-v2.js"></script>
 </body>
 </html>

@@ -68,3 +68,9 @@ Company *──* Product, Company *──* Industry, Company *──* Contact
 ```
 
 قاعده مالکیت: داده مرجع در پرونده کالا/شرکت ویرایش می‌شود؛ داده معامله در پرونده فرصت؛ snapshot سند فقط با نسخه جدید تغییر می‌کند.
+
+## Projectionهای استفاده‌شده در Prototype
+
+Prototype v2 زیرمجموعه‌ای مصنوعی از مدل را به‌صورت objectهای مرورگر نمایش می‌دهد: `Opportunity`، `Task`، رویدادهای `Activity/Decision`، `DocumentVersion` و `RouteLeg`. فرم‌ها رابطه را با شناسه نمایشی مانند `TD-0241` حفظ می‌کنند، اما entity واقعی، کلید خارجی، audit غیرقابل‌تغییر یا permission enforcement ایجاد نمی‌شود.
+
+فهرست‌ها projection هستند: کارهای روز از task/next action، صف اسناد از document status/validity و سلامت پرونده از missing-dataهای نمونه ساخته می‌شود. در پیاده‌سازی اجرایی این projectionها باید از مدل‌های منبع حقیقت بالا محاسبه شوند، نه از state سمت کاربر.
