@@ -1,0 +1,20 @@
+# Secrets and environment
+private/.env
+private/admin-credentials.txt
+*.pem
+*.key
+
+# Runtime data
+private/storage/logs/*
+private/storage/uploads/*
+!private/storage/logs/.gitkeep
+!private/storage/uploads/.gitkeep
+
+# Local tooling
+.DS_Store
+.idea/
+.vscode/
+node_modules/
+vendor/
+*.log
+*.tmp
