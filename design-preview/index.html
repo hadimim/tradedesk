@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#123c35">
+  <title>TradeDesk v2 — نمونه طراحی محصول</title>
+  <link rel="stylesheet" href="assets/prototype.css">
+  <style>@media(max-width:900px){html,body,.shell,main,.view,.case-hero,.progress-track,.health-strip,.case-layout{min-width:0;max-width:100%;overflow-x:hidden}.progress-track,.case-tabs{overflow-x:auto}.case-main>*{min-width:0}.case-main h1{overflow-wrap:anywhere}}</style>
+</head>
+<body>
+  <div class="prototype-ribbon">نمونه آزمایشی / تأییدنشده <span>— بدون اتصال به داده واقعی</span></div>
+  <div class="shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#today"><span class="brand-glyph">T</span><span><b>TradeDesk</b><small>اتاق عملیات بازرگانی</small></span></a>
+      <nav id="mainNav" aria-label="ناوبری اصلی">
+        <a href="#today" data-nav="today"><span>⌁</span> کارهای روز <i>۷</i></a>
+        <a href="#opportunities" data-nav="opportunities"><span>◫</span> فرصت‌های بازرگانی</a>
+        <div class="nav-label">دانش تجاری</div>
+        <a href="#product" data-nav="product"><span>◇</span> کالاها</a>
+        <a href="#company" data-nav="company"><span>◎</span> شرکت‌ها و اشخاص</a>
+        <a href="#documents" data-nav="documents" class="muted-link"><span>▤</span> صف اسناد <i>۳</i></a>
+        <div class="nav-label">مدیریت</div>
+        <a href="#reports" data-nav="reports" class="muted-link"><span>⌗</span> گزارش‌ها</a>
+        <a href="#settings" data-nav="settings" class="muted-link"><span>⚙</span> تنظیمات</a>
+      </nav>
+      <div class="side-foot">
+        <div class="user-avatar">ح م</div><div><b>حامد میرزایی</b><small>شریک / مدیر بازرگانی</small></div><button aria-label="منوی کاربر">•••</button>
+      </div>
+    </aside>
+    <main>
+      <header class="topbar">
+        <button class="menu-toggle" id="menuToggle" aria-label="نمایش منو">☰</button>
+        <div class="global-search"><span>⌕</span><input placeholder="جست‌وجوی پرونده، کالا، شرکت یا سند…" aria-label="جست‌وجوی سراسری"><kbd>Ctrl K</kbd></div>
+        <button class="top-action" data-demo="مرکز اعلان‌ها در نسخه اجرایی باز می‌شود">♢<i></i></button>
+        <button class="quick-create" data-demo="جریان ایجاد سریع: درخواست → کالا → طرف‌ها → اقدام بعدی">＋ ثبت درخواست جدید</button>
+      </header>
+      <div id="app" tabindex="-1"></div>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="assets/prototype.js"></script>
+</body>
+</html>
