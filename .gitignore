@@ -7,6 +7,7 @@ private/admin-credentials.txt
 # Runtime data
 private/storage/logs/*
 private/storage/uploads/*
+private/storage/backups/*
 !private/storage/logs/.gitkeep
 !private/storage/uploads/.gitkeep
 

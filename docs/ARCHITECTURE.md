@@ -1,49 +1,19 @@
-# TradeDesk — معماری نسخه اول
+# معماری TradeDesk v2
 
-## معماری انتخاب‌شده
+TradeDesk یک برنامه PHP 8.3/MariaDB با وب‌روت `public_html` است. `index.html` پوسته RTL و router مبتنی بر History API را بار می‌کند؛ rewrite سرور همه مسیرهای غیر فایل را به آن برمی‌گرداند و `/api/*` به `public_html/api/index.php` و سپس `private/app/api_v2.php` می‌رود. برنامه نهایی به `design-preview` وابسته نیست.
 
-سامانه یک PHP 8.3 monolith سبک و بدون وابستگی خارجی است. وب‌روت `public_html`، درخواست‌های رابط و API از front controller، منطق تجاری در `app`، migrationها در `database` و فایل‌های خصوصی در `storage` نگهداری می‌شوند. مرجع داده MariaDB است. رابط فارسی، RTL و واکنش‌گرا با JavaScript ماژولار از API داخلی JSON استفاده می‌کند. نشست، CSRF، مجوز و اعتبارسنجی همگی در سرور اعمال می‌شوند.
+API نشست‌محور است: ورود با throttling، regeneration نشست، CSRF برای mutation، Argon2id، RBAC در هر endpoint، prepared statement و audit دارد. فهرست‌ها search/filter/sort/pagination سمت سرور دارند. عملیات چندجدولی فرصت، مقایسه، نسخه سند و import تراکنشی‌اند. فایل‌ها با نام تصادفی و hash خارج از وب‌روت در `private/storage/uploads` نگهداری می‌شوند.
 
-## موجودیت‌ها و روابط اصلی
+## نقشه لایه‌ها
 
-- کاربر ← نقش ← مجوز؛ هر کاربر می‌تواند چند نقش داشته باشد.
-- کالا ← دسته، واحد، alias، مشخصه فنی، HS Code، کشور، صنعت، الزام و فایل.
-- شرکت ← نقش‌های متعدد، تماس‌ها، صنایع، کالاها، مدارک و روابط شرکتی.
-- فرصت ← مرحله و تاریخچه، اقلام، طرف‌ها، وظایف، فعالیت‌ها، قیمت‌ها، استعلام‌ها، اسناد و فایل‌ها.
-- پیشنهاد ← اقلام و ارز؛ مسیر ← legها و تأمین‌کنندگان؛ بیمه ← محصول، استعلام و سند.
-- سند ← قالب و نسخه‌های immutable با snapshot داده‌های زمان تولید.
-- تغییرات مهم در audit log و اعلان‌های موعددار در notifications ثبت می‌شوند.
+| صفحه/دامنه | API | جداول اصلی |
+|---|---|---|
+| کالا و مقررات | `/api/products`, `/api/hs-codes`, `/api/regulations` | products، aliases، attributes، product_hs_codes، product_* |
+| شرکت و اشخاص | `/api/companies`, `/api/contacts`, `/api/company-leads` | companies، company_roles/products/industries، contacts، leads |
+| پرونده معامله | `/api/opportunities` و actionهای stage/decision/activity | opportunities، items، parties، tasks، activities، history |
+| پیشنهاد و قیمت | `/api/quotations`, `/api/prices`, `/api/quotations/compare` | quotations/items، price_observations، quote_comparison_* |
+| حمل و بیمه | `/api/routes`, `/api/transport-quotes`, `/api/insurance-*` | transport_*، insurance_* |
+| سند | `/api/documents` و versions/approve/issue | documents، versions، approvals، files |
+| آمار تجارت | `/api/trade-*`, `/api/trade-imports/*` | sources، import_batches، statistics، company_leads |
 
-Foreign keyها از حذف زنجیره‌ای داده عملیاتی جلوگیری می‌کنند. داده‌های استفاده‌شده آرشیو/soft-delete می‌شوند. مبالغ و مقادیر `DECIMAL` و زمان‌ها استاندارد ذخیره می‌شوند.
-
-## نقش‌ها و حدود دسترسی
-
-- `system_admin`: همه عملیات و تنظیمات.
-- `company_admin`: مدیریت کاربران، تنظیمات و ماژول‌های شرکت.
-- `trade_manager`: مشاهده، ایجاد، ویرایش، تأیید و خروجی داده عملیاتی.
-- `trade_operator`: مشاهده، ایجاد و ویرایش بدون مدیریت دسترسی و صدور نهایی.
-- `viewer`: مشاهده داده‌های مجاز.
-
-مجوزها به شکل `module.operation` تعریف و در API بررسی می‌شوند.
-
-## گردش‌کار فرصت
-
-بررسی اولیه ← تکمیل اطلاعات ← تأمین‌یابی ← استعلام ← مذاکره ← اسناد ← پرداخت ← لجستیک ← تکمیل. لغو مسیر پایانی مستقل است. تغییر مرحله endpoint اختصاصی، تراکنش، کنترل فیلدهای اجباری و تاریخچه دارد.
-
-## فرض‌ها
-
-- نسخه اول تک‌شرکتی و کاربران/نقش‌ها توسعه‌پذیرند.
-- تاریخ استاندارد ذخیره و طبق timezone و قالب تنظیمات نمایش داده می‌شود.
-- AI فقط با adapter و secret محیطی فعال می‌شود؛ نبود آن هیچ بخش دیگری را مختل نمی‌کند.
-- خروجی سند HTML چاپ‌پذیر/PDF مرورگر است و snapshot نسخه immutable می‌ماند.
-- اتصال وب بیرونی و پیام‌رسان عمداً وجود ندارد.
-
-## ترتیب ساخت
-
-1. schema، migration runner و seed پایه
-2. احراز هویت، RBAC، audit و تنظیمات
-3. داده پایه، کالا و شرکت
-4. فرصت، وظیفه، فعالیت، قیمت و quotation
-5. حمل، بیمه، فایل و سند نسخه‌دار
-6. داشبورد، جست‌وجو، گزارش/CSV و رابط واکنش‌گرا
-7. تست، نصب production و مستندات پشتیبان‌گیری
+جدول‌های قدیمی AI فقط میراث schema 001 هستند و هیچ route، UI یا endpoint فعال ندارند. پیام‌رسان، scraping و داده ساختگی نیز وجود ندارد.
