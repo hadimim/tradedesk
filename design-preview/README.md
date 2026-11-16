@@ -1,6 +1,6 @@
-# TradeDesk v2 — Design Preview
+# TradeDesk v3 — Prototype فهرست و جزئیات
 
-این پوشه Prototype مستقل و بدون دیتابیس/API است. اپلیکیشن فعلی را تغییر نمی‌دهد و تمام داده‌های آن ساختگی و با برچسب «نمونه آزمایشی / تأییدنشده» هستند.
+Prototype مستقل، RTL و بدون API/دیتابیس است. داده‌ها ساختگی‌اند و در رابط با عبارت «نمونه آزمایشی / تأییدنشده» مشخص می‌شوند. فونت Vazirmatn به‌صورت self-hosted و تحت مجوز OFL در `assets/fonts/` قرار دارد.
 
 ## اجرا
 
@@ -10,22 +10,23 @@
 php -S 127.0.0.1:8090 -t design-preview
 ```
 
-سپس `http://127.0.0.1:8090` را باز کنید. بازکردن مستقیم `index.html` نیز ممکن است.
+سپس `http://127.0.0.1:8090` را باز کنید. در اتصال Remote VS Code پورت 8090 را Forward کنید.
 
-## مسیرهای قابل بررسی
+## قرارداد route
 
-- `#today` — کارهای روز و صف پیگیری
-- `#opportunities` — میز فرصت‌ها و فیلترهای عملیاتی
-- `#opportunity` — پرونده معامله، سلامت، طرف‌ها، پیشنهادها و timeline
-- `#product` — پرونده کالا، مشخصات، HS Code و روابط
-- `#company` — پرونده شرکت، نقش‌ها، تماس‌ها و فرصت‌های مرتبط
-- `#companies` و `#contact` — فهرست شرکت‌ها و پرونده شخص تماس
-- `#tasks` — کارتابل وظایف و تکمیل اقدام
-- `#documents` — صف اسناد و جریان ساخت/preview پیش‌نویس
-- `#quotes` — مقایسه پیشنهاد و ثبت دلیل تصمیم
-- `#logistics` — مسیر چندبخشی، حمل و بیمه
-- `#reports`، `#settings` و `#categories` — گزارش، مدیریت و دسته‌بندی کالا
+- فهرست: `#products`، `#companies`، `#contacts`، `#opportunities` و مانند آن.
+- جزئیات: `#product?id=prd-ldpe`، `#company?id=co-anatolia`، `#opportunity?id=op-241`.
+- refresh روی route جزئیات همان رکورد را نگه می‌دارد.
+- منوی اصلی فقط فهرست‌ها را باز می‌کند؛ رکورد از جدول فهرست انتخاب می‌شود.
 
-لینک‌ها، فیلترها، جست‌وجوی سراسری، drawerها و wizardهای اصلی قابل کلیک‌اند. ثبت آزمایشی فقط `localStorage` همین مرورگر را تغییر می‌دهد؛ badge پایین صفحه داده نمونه را بازنشانی می‌کند. هیچ API یا دیتابیسی متصل نیست.
+## فهرست‌های قابل بررسی
 
-Screenshotهای تازه در `design-preview/screenshots/v2-*.png` قرار دارند.
+`products`، `companies`، `contacts`، `opportunities`، `tasks`، `quotes`، `prices`، `documents`، `routes`، `insurance`، `categories`، `industries`، `countries` و `hsCodes`.
+
+هرکدام detail مستقل دارند و رابطه‌های درون صفحات به شناسه مقصد وصل‌اند. فرصت `TD-0241` دو قلم کالا دارد تا مسیر چندقلمی قابل بررسی باشد.
+
+## state و محدودیت
+
+ایجاد/ویرایش نمایشی فقط `localStorage` مرورگر را تغییر می‌دهد. صدور سند، تأیید واقعی، API، AI، جست‌وجوی بیرونی و پیام‌رسان متصل نیستند. فایل‌های `prototype.js` و `prototype-v2.js` تاریخچه نسخه قبلی‌اند و دیگر توسط `index.html` بارگذاری نمی‌شوند؛ رابط فعال از `app-v3.js` تولید می‌شود.
+
+Screenshotهای QA جدید در `screenshots/v3-*.png` هستند.
