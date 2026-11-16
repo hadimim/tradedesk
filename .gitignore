@@ -17,5 +17,6 @@ private/storage/backups/*
 .vscode/
 node_modules/
 vendor/
+__pycache__/
 *.log
 *.tmp

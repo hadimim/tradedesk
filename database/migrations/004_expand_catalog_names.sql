@@ -1,0 +1,7 @@
+ALTER TABLE product_categories
+  MODIFY name_fa VARCHAR(600) NOT NULL,
+  MODIFY name_en VARCHAR(600) NULL;
+
+ALTER TABLE products
+  MODIFY name_fa VARCHAR(800) NOT NULL,
+  MODIFY name_en VARCHAR(800) NULL;

@@ -16,6 +16,17 @@ php tests/smoke.php
 
 4. وب‌روت، `/api/health`، ورود، یک فهرست و refresh یک صفحه جزئیات را بررسی کنید. پوشه‌ها `0750`/`0755` و فایل خصوصی `.env` و backupها `0640`/`0600` باشند.
 
+## ورود کاتالوگ UN Comtrade H6
+
+فایل XLSX با `scripts/prepare-hs-catalog.py` به TSV کنترل‌شده تبدیل می‌شود و سپس importer تراکنشی و idempotent اجرا می‌شود:
+
+```bash
+python3 scripts/prepare-hs-catalog.py UNComtrade-cmd-H6.xlsx prepared.tsv --model-dir /path/to/unpacked/argos-en-fa
+php scripts/import-hs-catalog.php prepared.tsv
+```
+
+پیش از import از DB backup بگیرید. ترجمه‌ها ماشینی و نیازمند بازبینی‌اند؛ importer ترجمه‌ای را که وضعیت `reviewed` گرفته باشد overwrite نمی‌کند.
+
 Seed فقط نقش/مجوز، مراحل، کشور، ارز، واحد، روش حمل و تنظیمات پایه ایجاد می‌کند؛ شرکت، HS، قیمت یا آمار واقعی نمونه نمی‌سازد. مدیر اولیه از `ADMIN_EMAIL` و `ADMIN_PASSWORD` محیط ساخته می‌شود و باید رمز را در اولین ورود تغییر دهد.
 
 ## Rollback
